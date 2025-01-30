@@ -2,10 +2,10 @@
   "name": "personal-webpage",
   "version": "1.0.0",
   "description": "A personal webpage project.",
-  "main": "src/index.html",
+  "main": "index.html",
   "scripts": {
-    "start": "open src/index.html",
-    "build": "mkdir -p dist && cp -r src dist/ && cp index.html dist/",
+    "start": "serve .",
+    "build": "mkdir -p dist && cp -r src/* dist/ && cp index.html dist/ && cp -r src/styles dist/ && cp -r src/scripts dist/",
     "dev": "serve ."
   },
   "author": "Your Name",

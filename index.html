@@ -5,13 +5,51 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Portfolio website showcasing expertise in embedded engineering and EV charging solutions">
     <title>Tulio Soares - Portfolio</title>
-    <link rel="stylesheet" href="src/styles/style.css">
+    <link rel="stylesheet" href="styles/style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- ... rest of the body ... -->
-    <script src="src/scripts/main.js"></script>
+    <header>
+        <div class="header-content">
+            <div class="logo-name-container">
+                <div class="logo"></div>
+                <div class="name-title-container">
+                    <h1>Túlio Soares</h1>
+                    <p class="subtitle">EV Charging Solutions Engineer</p>
+                </div>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#projects">Projects</a></li>
+                    <li><a href="#blog">Blog</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                    <li><a href="#easter-eggs" class="easter-egg-link">???</a></li>
+                </ul>
+            </nav>
+        </div>
+        <button id="changeThemeButton">Switch to Light Theme</button>
+    </header>
+
+    <main>
+        <section id="hero">
+            <h2>Innovating EV Charging Solutions</h2>
+            <p>Building the future of sustainable transportation through advanced embedded systems</p>
+        </section>
+
+        <section id="projects">
+            <h2>Featured Projects</h2>
+            <div class="project-grid">
+                <!-- Projects will be dynamically inserted here by JavaScript -->
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Túlio Soares - EV Charging Solutions</p>
+    </footer>
+    <script src="scripts/main.js"></script>
 </body>
 </html> 
