@@ -5,7 +5,7 @@
   "main": "index.html",
   "scripts": {
     "start": "serve .",
-    "build": "mkdir -p dist && cp -r src/styles dist/ && cp -r src/scripts dist/ && cp index.html dist/",
+    "build": "mkdir -p dist && cp -r src/styles dist/ && cp -r src/scripts dist/ && cp index.html dist/ && ls -la dist/styles/",
     "dev": "serve ."
   },
   "author": "Your Name",
