@@ -5,6 +5,10 @@ on:
     branches:
       - main
 
+# Add these permission settings
+permissions:
+  contents: write
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
