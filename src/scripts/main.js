@@ -91,7 +91,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const isLight = document.body.classList.contains('light-theme');
         const theme = isLight ? 'light' : 'dark';
         
-        themeButton.textContent = isLight ? 'Switch to Dark Theme' : 'Switch to Light Theme';
+        themeButton.textContent = isLight ? 'Go To EV Charging Mode' : 'Go To Software Mode';
         updateContent(theme);
     });
 });
