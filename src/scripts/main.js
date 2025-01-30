@@ -91,7 +91,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const isLight = document.body.classList.contains('light-theme');
         const theme = isLight ? 'light' : 'dark';
         
-        themeButton.textContent = isLight ? 'Go To EV Charging Mode' : 'Go To Software Mode';
+        updateThemeButton();
         updateContent(theme);
     });
 });
@@ -103,4 +103,13 @@ function getRandomColor() {
         color += letters[Math.floor(Math.random() * 16)];
     }
     return color;
+}
+
+function updateThemeButton() {
+    const button = document.getElementById('changeThemeButton');
+    if (document.body.classList.contains('light-theme')) {
+        button.textContent = 'EV Charging Mode';
+    } else {
+        button.textContent = 'Software Mode';
+    }
 }
