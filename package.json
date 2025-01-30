@@ -5,8 +5,8 @@
   "main": "src/index.html",
   "scripts": {
     "start": "open src/index.html",
-    "build": "mkdir -p dist && cp -r src/* dist/",
-    "dev": "serve src"
+    "build": "mkdir -p dist && cp -r src dist/ && cp index.html dist/",
+    "dev": "serve ."
   },
   "author": "Your Name",
   "license": "MIT",
