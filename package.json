@@ -5,7 +5,7 @@
   "main": "index.html",
   "scripts": {
     "start": "serve .",
-    "build": "mkdir -p dist && cp -r src/styles dist/ && cp -r src/scripts dist/ && cp index.html dist/ && echo 'Directory contents:' && ls -R dist/",
+    "build": "rm -rf dist && mkdir -p dist && cp index.html dist/ && cp -r src/* dist/ && touch dist/.nojekyll && echo 'Build contents:' && ls -la dist/",
     "dev": "serve ."
   },
   "author": "Your Name",
