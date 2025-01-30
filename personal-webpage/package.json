@@ -1,0 +1,17 @@
+{
+  "name": "personal-webpage",
+  "version": "1.0.0",
+  "description": "A personal webpage project.",
+  "main": "src/index.html",
+  "scripts": {
+    "start": "open src/index.html",
+    "build": "mkdir -p dist && cp -r src/* dist/",
+    "dev": "serve src"
+  },
+  "author": "Your Name",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "serve": "^14.0.0"
+  }
+}
