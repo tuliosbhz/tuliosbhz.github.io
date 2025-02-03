@@ -7,26 +7,23 @@ async function build() {
         await fs.remove('dist');
         await fs.ensureDir('dist');
 
-        // Copy all files from src to dist
-        await fs.copy('src', 'dist/src');
+        // Copy all files from src to dist with correct structure
+        await fs.copy('src', 'dist');
         
-        // Copy index.html to dist
+        // Copy index.html to root of dist
         await fs.copy('index.html', 'dist/index.html');
 
-        // Copy scripts directly to make paths work
-        await fs.copy('src/scripts', 'dist/scripts');
-
-        // Handle HTML files
+        // Update file paths in HTML files
         const files = [
             'dist/index.html',
-            'dist/src/blog/charger-tutorial.html'
+            'dist/blog/charger-tutorial.html'
         ];
 
         for (const file of files) {
             if (await fs.pathExists(file)) {
                 let content = await fs.readFile(file, 'utf8');
                 
-                // Replace development paths with production paths
+                // Replace all /src/ references with /
                 content = content.replace(/\/src\//g, '/');
                 
                 await fs.writeFile(file, content);
@@ -35,7 +32,21 @@ async function build() {
             }
         }
 
-        // Create .nojekyll file for GitHub Pages
+        // Update paths in JavaScript files
+        const jsFiles = [
+            'dist/scripts/main.js',
+            'dist/scripts/blog/charger-game.js'
+        ];
+
+        for (const file of jsFiles) {
+            if (await fs.pathExists(file)) {
+                let content = await fs.readFile(file, 'utf8');
+                content = content.replace(/\/src\//g, '/');
+                await fs.writeFile(file, content);
+            }
+        }
+
+        // Create .nojekyll file
         await fs.writeFile('dist/.nojekyll', '');
 
         console.log('Build completed successfully!');
