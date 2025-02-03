@@ -1,16 +1,57 @@
 // This file contains the JavaScript code for the webpage. It handles interactivity and dynamic content.
 
-import { config } from '../config/dev.js';  // This will be replaced in production
-
-// Use config.baseUrl when constructing paths
-const assetsPath = `${config.baseUrl}/assets`;
+// Config object that will be replaced during build
+const config = {
+    baseUrl: '/src',
+    isDev: true
+};
 
 document.addEventListener('DOMContentLoaded', () => {
     const themeButton = document.getElementById('changeThemeButton');
     const projectGrid = document.querySelector('.project-grid');
-    const heroTitle = document.querySelector('#hero h2');
-    const heroDescription = document.querySelector('#hero p');
+    
+    // Load saved theme from localStorage
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    document.body.classList.toggle('light-theme', savedTheme === 'light');
+    themeButton.textContent = savedTheme === 'light' ? 'Hardware Mode' : 'Software Mode';
 
+    // Theme toggle functionality
+    themeButton.addEventListener('click', () => {
+        document.body.classList.toggle('light-theme');
+        const isLight = document.body.classList.contains('light-theme');
+        themeButton.textContent = isLight ? 'Hardware Mode' : 'Software Mode';
+        localStorage.setItem('theme', isLight ? 'light' : 'dark');
+        
+        // Update content based on theme
+        updateContent(isLight ? themes.light : themes.dark);
+    });
+
+    // Initialize content based on current theme
+    const currentTheme = document.body.classList.contains('light-theme') ? themes.light : themes.dark;
+    updateContent(currentTheme);
+
+    function updateContent(theme) {
+        // Update hero section
+        const heroTitle = document.querySelector('#hero h2');
+        const heroDescription = document.querySelector('#hero p');
+        if (heroTitle) heroTitle.textContent = theme.hero.title;
+        if (heroDescription) heroDescription.textContent = theme.hero.description;
+
+        // Update projects
+        if (projectGrid) {
+            projectGrid.innerHTML = theme.projects.map(project => `
+                <article class="project-card">
+                    <h3>${project.title}</h3>
+                    <p>${project.description}</p>
+                    <div class="tech-stack">
+                        ${project.tech.map(tech => `<span class="tech-tag">${tech}</span>`).join('')}
+                    </div>
+                </article>
+            `).join('');
+        }
+    }
+
+    // Rest of your themes object...
     const themes = {
         dark: {
             hero: {
@@ -69,36 +110,6 @@ document.addEventListener('DOMContentLoaded', () => {
             ]
         }
     };
-
-    function updateContent(theme) {
-        // Update hero section
-        heroTitle.textContent = themes[theme].hero.title;
-        heroDescription.textContent = themes[theme].hero.description;
-
-        // Update projects
-        projectGrid.innerHTML = themes[theme].projects.map(project => `
-            <div class="project-card">
-                <h3>${project.title}</h3>
-                <p>${project.description}</p>
-                <div class="tech-stack">
-                    ${project.tech.map(tech => `<span class="tech-tag">${tech}</span>`).join('')}
-                </div>
-            </div>
-        `).join('');
-    }
-
-    // Initial content setup
-    updateContent('dark');
-
-    // Theme switching
-    themeButton.addEventListener('click', () => {
-        document.body.classList.toggle('light-theme');
-        const isLight = document.body.classList.contains('light-theme');
-        const theme = isLight ? 'light' : 'dark';
-        
-        updateThemeButton();
-        updateContent(theme);
-    });
 });
 
 function getRandomColor() {
