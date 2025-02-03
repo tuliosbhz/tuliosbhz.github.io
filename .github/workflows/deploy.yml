@@ -23,13 +23,21 @@ jobs:
           node-version: '18'
           
       - name: Install dependencies
-        run: npm install
+        run: npm ci
         
       - name: Build
         run: npm run build
+        
+      - name: Debug directory content
+        run: |
+          echo "Contents of dist directory:"
+          ls -la dist/
+          echo "Contents of dist/scripts:"
+          ls -la dist/scripts/
         
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist 
+          publish_dir: ./dist
+          force_orphan: true 

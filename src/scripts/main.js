@@ -13,45 +13,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // Load saved theme from localStorage
     const savedTheme = localStorage.getItem('theme') || 'dark';
     document.body.classList.toggle('light-theme', savedTheme === 'light');
-    themeButton.textContent = savedTheme === 'light' ? 'Hardware Mode' : 'Software Mode';
+    themeButton.textContent = savedTheme === 'light' ? 'Software Mode' : 'EV Charging Mode';
 
-    // Theme toggle functionality
-    themeButton.addEventListener('click', () => {
-        document.body.classList.toggle('light-theme');
-        const isLight = document.body.classList.contains('light-theme');
-        themeButton.textContent = isLight ? 'Hardware Mode' : 'Software Mode';
-        localStorage.setItem('theme', isLight ? 'light' : 'dark');
-        
-        // Update content based on theme
-        updateContent(isLight ? themes.light : themes.dark);
-    });
-
-    // Initialize content based on current theme
-    const currentTheme = document.body.classList.contains('light-theme') ? themes.light : themes.dark;
-    updateContent(currentTheme);
-
-    function updateContent(theme) {
-        // Update hero section
-        const heroTitle = document.querySelector('#hero h2');
-        const heroDescription = document.querySelector('#hero p');
-        if (heroTitle) heroTitle.textContent = theme.hero.title;
-        if (heroDescription) heroDescription.textContent = theme.hero.description;
-
-        // Update projects
-        if (projectGrid) {
-            projectGrid.innerHTML = theme.projects.map(project => `
-                <article class="project-card">
-                    <h3>${project.title}</h3>
-                    <p>${project.description}</p>
-                    <div class="tech-stack">
-                        ${project.tech.map(tech => `<span class="tech-tag">${tech}</span>`).join('')}
-                    </div>
-                </article>
-            `).join('');
-        }
-    }
-
-    // Rest of your themes object...
     const themes = {
         dark: {
             hero: {
@@ -110,6 +73,38 @@ document.addEventListener('DOMContentLoaded', () => {
             ]
         }
     };
+
+    function updateContent(theme) {
+        const heroTitle = document.querySelector('#hero h2');
+        const heroDescription = document.querySelector('#hero p');
+        
+        if (heroTitle) heroTitle.textContent = theme.hero.title;
+        if (heroDescription) heroDescription.textContent = theme.hero.description;
+
+        if (projectGrid) {
+            projectGrid.innerHTML = theme.projects.map(project => `
+                <article class="project-card">
+                    <h3>${project.title}</h3>
+                    <p>${project.description}</p>
+                    <div class="tech-stack">
+                        ${project.tech.map(tech => `<span class="tech-tag">${tech}</span>`).join('')}
+                    </div>
+                </article>
+            `).join('');
+        }
+    }
+
+    // Initialize content based on current theme
+    updateContent(savedTheme === 'light' ? themes.light : themes.dark);
+
+    // Theme toggle functionality
+    themeButton.addEventListener('click', () => {
+        const isLight = !document.body.classList.contains('light-theme');
+        document.body.classList.toggle('light-theme', isLight);
+        themeButton.textContent = isLight ? 'Software Mode' : 'EV Charging Mode';
+        localStorage.setItem('theme', isLight ? 'light' : 'dark');
+        updateContent(isLight ? themes.light : themes.dark);
+    });
 });
 
 function getRandomColor() {
