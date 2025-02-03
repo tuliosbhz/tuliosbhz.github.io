@@ -1,5 +1,10 @@
 // This file contains the JavaScript code for the webpage. It handles interactivity and dynamic content.
 
+import { config } from '../config/dev.js';  // This will be replaced in production
+
+// Use config.baseUrl when constructing paths
+const assetsPath = `${config.baseUrl}/assets`;
+
 document.addEventListener('DOMContentLoaded', () => {
     const themeButton = document.getElementById('changeThemeButton');
     const projectGrid = document.querySelector('.project-grid');

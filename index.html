@@ -6,10 +6,11 @@
     <meta name="description" content="Portfolio website showcasing expertise in embedded engineering and EV charging solutions">
     <title>Tulio Soares - Portfolio</title>
     <!-- Add a debug comment to check if CSS is loading -->
-    <link rel="stylesheet" href="styles/style.css" type="text/css">
+    <link rel="stylesheet" href="/src/styles/style.css" type="text/css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code&display=swap" rel="stylesheet">
+    <script src="/src/scripts/main.js"></script>
 </head>
 <body>
     <header>
@@ -17,15 +18,15 @@
             <div class="logo-name-container">
                 <div class="logo"></div>
                 <div class="name-title-container">
-                    <h1>Túlio Soares</h1>
-                    <p class="subtitle">EV Charging Solutions Engineer</p>
+                    <h1>EV Charging Lab</h1>
+                    <p class="subtitle">Exploring Sustainable Mobility</p>
                 </div>
             </div>
             <nav>
                 <ul>
                     <li><a href="#home">Home</a></li>
                     <li><a href="#projects">Projects</a></li>
-                    <li><a href="#blog">Blog</a></li>
+                    <li><a href="/src/blog/charger-tutorial.html">Blog</a></li>
                     <li><a href="#contact">Contact</a></li>
                     <li><a href="#easter-eggs" class="easter-egg-link">?</a></li>
                 </ul>
@@ -46,11 +47,27 @@
                 <!-- Projects will be dynamically inserted here by JavaScript -->
             </div>
         </section>
+
+        <section id="blog" class="blog-section">
+            <h2>Blog Posts</h2>
+            <div class="blog-grid">
+                <article class="blog-card">
+                    <h3>Building an EV Charger: Interactive Guide</h3>
+                    <p>Learn about EV charging station development through an interactive game-like experience.</p>
+                    <div class="blog-tags">
+                        <span class="tech-tag">IEC 61851-1</span>
+                        <span class="tech-tag">ISO 15118</span>
+                        <span class="tech-tag">Interactive</span>
+                    </div>
+                    <a href="/src/blog/charger-tutorial.html" class="read-more">Read More →</a>
+                </article>
+                <!-- More blog posts can be added here -->
+            </div>
+        </section>
     </main>
 
     <footer>
         <p>&copy; 2024 Túlio Soares - EV Charging Solutions</p>
     </footer>
-    <script src="scripts/main.js"></script>
 </body>
 </html> 

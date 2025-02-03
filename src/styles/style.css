@@ -4,18 +4,23 @@ body {
 }
 
 :root {
-    --primary-color: #6366f1;    /* Indigo */
-    --secondary-color: #8b5cf6;  /* Purple */
-    --background-color: #0f172a; /* Dark blue-gray */
-    --surface-color: #1e293b;    /* Lighter blue-gray */
-    --text-color: #f1f5f9;       /* Light gray */
-    --accent-color: #22d3ee;     /* Cyan */
-    --light-theme-bg: #f1f5f9;   /* Slightly darker background */
-    --light-theme-surface: #e2e8f0; /* Light gray for surfaces */
-    --light-theme-text: #0f172a;    /* Darker text for better contrast */
-    --light-theme-nav: #312e81;     /* Even darker indigo for navigation */
-    --light-theme-subtitle: #4f46e5; /* Bright indigo for subtitle */
-    --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    /* Dark theme colors (current yellow neon) */
+    --primary-color: #ffd700;    /* Dark yellow neon */
+    --secondary-color: #ff8c00;  /* Dark orange */
+    --background-color: #0a0b1e; /* Deep space blue */
+    --surface-color: #1a1b3d;    /* Lighter space blue */
+    --text-color: #e0e0ff;       /* Soft neon white */
+    --accent-color: #b8860b;     /* Darker golden accent */
+    
+    /* Restore original light theme colors */
+    --light-theme-bg: #f1f5f9;
+    --light-theme-surface: #e2e8f0;
+    --light-theme-text: #0f172a;
+    --light-theme-nav: #6366f1;  /* Original indigo */
+    --light-theme-subtitle: #8b5cf6;  /* Original purple */
+    --card-shadow: 0 4px 20px rgba(255, 215, 0, 0.1);
+    --neon-text-shadow: 0 0 3px rgba(255, 215, 0, 0.3);
+    --neon-box-shadow: 0 0 8px rgba(255, 215, 0, 0.2);
 }
 
 /* General styles */
@@ -60,28 +65,53 @@ header {
 .logo-name-container {
     display: flex;
     align-items: center;
-    gap: 1rem;
+    gap: 1.2rem;
 }
 
 .logo {
-    width: 40px;
-    height: 40px;
-    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    width: 48px;
+    height: 48px;
+    background: var(--surface-color);
     border-radius: 12px;
-    transform: rotate(45deg);
     position: relative;
     overflow: hidden;
+    border: 2px solid #00ff88;
+    box-shadow: 0 0 10px rgba(0, 255, 136, 0.3);
+    flex-shrink: 0;
+}
+
+/* Create circuit pattern in logo */
+.logo::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+        linear-gradient(45deg, transparent 48%, #00ff88 48%, #00ff88 52%, transparent 52%),
+        linear-gradient(-45deg, transparent 48%, #00ff88 48%, #00ff88 52%, transparent 52%);
+    background-size: 8px 8px;
+    opacity: 0.3;
 }
 
 .logo::after {
-    content: 'TS';  /* Your initials */
+    content: '⚡';
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%) rotate(-45deg);
-    font-weight: bold;
-    color: var(--text-color);
-    font-size: 1.2rem;
+    transform: translate(-50%, -50%);
+    color: #00ff88;
+    font-size: 1.8rem;
+    text-shadow: 0 0 8px rgba(0, 255, 136, 0.8);
+    animation: pulse 2s infinite;
+}
+
+/* Add pulse animation */
+@keyframes pulse {
+    0% { opacity: 0.7; }
+    50% { opacity: 1; }
+    100% { opacity: 0.7; }
 }
 
 .name-title-container {
@@ -96,16 +126,19 @@ header {
     background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-shadow: var(--neon-text-shadow);
+    letter-spacing: 2px;
+    opacity: 0.9;
 }
 
 .subtitle {
     font-size: 1rem;
-    color: var(--accent-color);
+    color: var(--primary-color);
     margin: 0;
     font-weight: 500;
-    letter-spacing: 0.5px;
+    letter-spacing: 3px;
     text-transform: uppercase;
+    text-shadow: var(--neon-text-shadow);
     opacity: 0.9;
 }
 
@@ -129,6 +162,8 @@ nav a {
     transition: all 0.3s ease;
     position: relative;
     padding: 0.5rem 0;
+    font-family: 'Share Tech Mono', monospace;
+    letter-spacing: 1px;
 }
 
 nav a::after {
@@ -138,8 +173,9 @@ nav a::after {
     height: 2px;
     bottom: 0;
     left: 0;
-    background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+    background: linear-gradient(90deg, var(--primary-color), transparent);
     transition: width 0.3s ease;
+    box-shadow: var(--neon-box-shadow);
 }
 
 nav a:hover::after {
@@ -202,16 +238,19 @@ nav a:hover::after {
 }
 
 .tech-tag {
-    background: rgba(99, 102, 241, 0.1);
+    background: rgba(0, 255, 213, 0.1);
     color: var(--primary-color);
     padding: 0.3rem 0.8rem;
     border-radius: 1rem;
     font-size: 0.875rem;
     transition: all 0.3s ease;
+    font-family: 'Share Tech Mono', monospace;
+    text-shadow: var(--neon-text-shadow);
+    border: 1px solid var(--primary-color);
 }
 
 .tech-tag:hover {
-    background: rgba(99, 102, 241, 0.2);
+    background: rgba(255, 215, 0, 0.15);
     transform: translateY(-1px);
 }
 
@@ -268,6 +307,7 @@ footer {
 body.light-theme {
     background-color: var(--light-theme-bg) !important;
     color: var(--light-theme-text) !important;
+    font-family: 'Inter', sans-serif;
 }
 
 body.light-theme header {
@@ -366,8 +406,8 @@ body.light-theme #changeThemeButton:hover {
     justify-content: center;
     align-items: center;
     text-align: center;
-    background: radial-gradient(circle at top right, rgba(99, 102, 241, 0.1), transparent 50%),
-                radial-gradient(circle at bottom left, rgba(139, 92, 246, 0.1), transparent 50%);
+    background: radial-gradient(circle at top right, rgba(255, 215, 0, 0.05), transparent 50%),
+                radial-gradient(circle at bottom left, rgba(255, 140, 0, 0.05), transparent 50%);
 }
 
 #hero h2 {
@@ -378,6 +418,9 @@ body.light-theme #changeThemeButton:hover {
     -webkit-text-fill-color: transparent;
     text-align: center;
     max-width: 800px;
+    text-shadow: var(--neon-text-shadow);
+    letter-spacing: 2px;
+    opacity: 0.9;
 }
 
 #hero p {
@@ -387,13 +430,15 @@ body.light-theme #changeThemeButton:hover {
     text-align: center;
     color: var(--text-color);
     opacity: 0.9;
+    font-family: 'Share Tech Mono', monospace;
+    letter-spacing: 1px;
 }
 
 /* Update theme button styles */
 #changeThemeButton {
-    background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
-    color: var(--text-color);
-    border: none;
+    background: var(--surface-color);
+    color: var(--primary-color);
+    border: 2px solid var(--primary-color);
     padding: 0.5rem 1rem;
     border-radius: 0.5rem;
     font-weight: 500;
@@ -403,12 +448,15 @@ body.light-theme #changeThemeButton:hover {
     margin-left: 2rem;
     white-space: nowrap;
     opacity: 0.9;
+    text-shadow: var(--neon-text-shadow);
+    box-shadow: var(--neon-box-shadow);
+    letter-spacing: 1px;
 }
 
 #changeThemeButton:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    opacity: 1;
+    background: var(--primary-color);
+    color: var(--background-color);
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
 }
 
 /* Update light theme button styles */
@@ -417,33 +465,306 @@ body.light-theme #changeThemeButton {
     color: white;
 }
 
-/* Test CSS to verify loading */
-body {
-    background-color: #f0f0f0;
-    margin: 0;
-    padding: 20px;
-    font-family: 'Inter', sans-serif;
-}
-
-h1 {
-    color: #2c3e50;
-}
-
-/* Responsive adjustments */
+/* Update header responsive styles */
 @media (max-width: 768px) {
     .header-content {
         flex-direction: column;
         gap: 1rem;
         padding: 1rem;
+        width: 100%;
+        overflow-x: hidden;  /* Prevent horizontal scroll */
+    }
+
+    .logo-name-container {
+        width: auto;
+        justify-content: center;
+        gap: 1.5rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .name-title-container {
+        text-align: left;
+    }
+
+    .header-content h1 {
+        font-size: 1.6rem;
+    }
+
+    .subtitle {
+        font-size: 0.85rem;
+        padding: 0;
+    }
+
+    nav {
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none; /* Firefox */
+        padding-bottom: 0.5rem;  /* Space for scroll */
+    }
+
+    nav::-webkit-scrollbar {
+        display: none; /* Chrome, Safari, Edge */
+    }
+
+    nav ul {
+        gap: 1.5rem;
+        padding: 0 1rem;
+        flex-wrap: nowrap;  /* Prevent wrapping */
+        justify-content: flex-start;  /* Left align items */
+        min-width: min-content;  /* Allow container to grow */
+    }
+
+    nav a {
+        white-space: nowrap;  /* Keep links on one line */
+        font-size: 0.9rem;  /* Smaller font size */
     }
 
     #changeThemeButton {
         position: static;
         transform: none;
-        margin-top: 1rem;
+        margin: 1rem auto;
+        font-size: 0.8rem;
+        padding: 0.5rem 1rem;
     }
 
-    nav ul {
-        gap: 1.5rem;
+    .logo {
+        width: 56px;
+        height: 56px;
     }
+
+    .logo::after {
+        font-size: 2rem;
+    }
+}
+
+/* Extra small devices */
+@media (max-width: 360px) {
+    .logo-name-container {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .name-title-container {
+        text-align: center;
+    }
+}
+
+/* Blog section styles */
+.blog-section {
+    padding: 6rem 2rem;
+    background: var(--background-color);
+}
+
+.blog-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.blog-card {
+    background: var(--surface-color);
+    border-radius: 1rem;
+    padding: 2rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid var(--primary-color);
+    box-shadow: var(--neon-box-shadow);
+}
+
+.blog-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.15);
+}
+
+.blog-card h3 {
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+}
+
+.blog-card p {
+    color: var(--text-color);
+    margin-bottom: 1.5rem;
+    opacity: 0.9;
+}
+
+.blog-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.read-more {
+    display: inline-block;
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 500;
+    transition: transform 0.3s ease;
+}
+
+.read-more:hover {
+    transform: translateX(5px);
+}
+
+/* Light theme adjustments */
+body.light-theme .blog-card {
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.05);  /* More subtle border for light theme */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+body.light-theme .blog-card:hover {
+    border-color: rgba(0, 0, 0, 0.1);  /* Slightly more visible on hover */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Add retro-modern fonts */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&family=Share+Tech+Mono&display=swap');
+
+/* Update dark theme typography */
+body {
+    font-family: 'Share Tech Mono', monospace;
+}
+
+h1, h2, h3, .subtitle {
+    font-family: 'Orbitron', sans-serif;
+}
+
+/* Update header styles for dark theme */
+.header-content h1 {
+    text-shadow: var(--neon-text-shadow);
+    letter-spacing: 2px;
+}
+
+.subtitle {
+    color: var(--primary-color);
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    text-shadow: var(--neon-text-shadow);
+}
+
+/* Update navigation for cyberpunk style */
+nav a {
+    font-family: 'Share Tech Mono', monospace;
+    letter-spacing: 1px;
+}
+
+nav a::after {
+    background: linear-gradient(90deg, var(--primary-color), transparent);
+    box-shadow: var(--neon-box-shadow);
+}
+
+/* Update button styles */
+#changeThemeButton {
+    font-family: 'Share Tech Mono', monospace;
+    background: var(--surface-color);
+    border: 2px solid var(--primary-color);
+    color: var(--primary-color);
+    text-shadow: var(--neon-text-shadow);
+    box-shadow: var(--neon-box-shadow);
+    letter-spacing: 1px;
+}
+
+#changeThemeButton:hover {
+    background: var(--primary-color);
+    color: var(--background-color);
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+}
+
+/* Update card styles */
+.blog-card {
+    border: 1px solid var(--primary-color);
+    box-shadow: var(--neon-box-shadow);
+}
+
+.blog-card:hover {
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.15);
+}
+
+.tech-tag {
+    background: rgba(0, 255, 213, 0.1);
+    border: 1px solid var(--primary-color);
+    color: var(--primary-color);
+    font-family: 'Share Tech Mono', monospace;
+    text-shadow: var(--neon-text-shadow);
+}
+
+/* Add scanline effect for retro feel */
+body::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        transparent 50%,
+        rgba(0, 0, 0, 0.08) 50%
+    );
+    background-size: 100% 4px;
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.08;
+}
+
+/* Update hero section */
+#hero h2 {
+    background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: var(--neon-text-shadow);
+    letter-spacing: 2px;
+    opacity: 0.9;
+}
+
+#hero p {
+    font-family: 'Share Tech Mono', monospace;
+    letter-spacing: 1px;
+}
+
+/* Keep light theme styles unchanged */
+body.light-theme h1,
+body.light-theme h2,
+body.light-theme h3 {
+    font-family: 'Inter', sans-serif;
+    text-shadow: none;
+}
+
+body.light-theme::after {
+    display: none;
+}
+
+/* Restore light theme styles to original */
+body.light-theme {
+    /* ... existing styles ... */
+    background: var(--light-theme-bg);
+}
+
+body.light-theme .header-content h1 {
+    background: linear-gradient(45deg, var(--light-theme-nav), var(--light-theme-subtitle));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: none;
+}
+
+body.light-theme .subtitle {
+    color: var(--light-theme-subtitle);
+}
+
+/* Light theme adjustments for logo */
+body.light-theme .logo {
+    background: var(--light-theme-surface);
+    border: 2px solid var(--light-theme-nav);
+    box-shadow: 0 2px 10px rgba(99, 102, 241, 0.1);
+}
+
+body.light-theme .logo::before {
+    opacity: 0.1;
+}
+
+body.light-theme .logo::after {
+    color: var(--light-theme-nav);
+    text-shadow: none;
 }

@@ -1,2 +1,19 @@
+# Development-specific files
 node_modules/
+.env
+.env.local
+.DS_Store
+*.log
+
+# Build output
 dist/
+build/
+
+# IDE/Editor specific
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Local development server files
+.serve/

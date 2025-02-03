@@ -5,16 +5,13 @@
   "main": "index.html",
   "scripts": {
     "start": "serve .",
-    "dev": "serve .",
-    "build": "node scripts/build.js",
-    "deploy": "npm run build && gh-pages -d dist"
+    "build": "rm -rf dist && mkdir -p dist && cp index.html dist/ && cp -r src/* dist/ && touch dist/.nojekyll && echo 'Build contents:' && ls -la dist/",
+    "dev": "serve ."
   },
   "author": "Your Name",
   "license": "MIT",
   "dependencies": {},
   "devDependencies": {
-    "serve": "^14.0.0",
-    "gh-pages": "^6.0.0",
-    "fs-extra": "^11.1.1"
+    "serve": "^14.0.0"
   }
 }
