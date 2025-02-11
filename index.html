@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Portfolio website showcasing expertise in embedded engineering and EV charging solutions">
+    <title>Tulio Soares - Portfolio</title>
+    <!-- Add a debug comment to check if CSS is loading -->
+    <link rel="stylesheet" href="/styles/style.css" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code&display=swap" rel="stylesheet">
+    <script src="/scripts/main.js"></script>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div class="logo-name-container">
+                <div class="logo">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <div class="name-title-container">
+                    <h1>EV Solutions Lab</h1>
+                    <p class="subtitle">Exploring Sustainable Mobility</p>
+                </div>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#projects">Projects</a></li>
+                    <li><a href="/blog/charger-tutorial.html">Blog</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                    <li><a href="#easter-eggs" class="easter-egg-link">?</a></li>
+                </ul>
+            </nav>
+        </div>
+        <button id="changeThemeButton">Software Mode</button>
+    </header>
+
+    <main>
+        <section id="hero">
+            <h2>Innovating EV Charging Solutions</h2>
+            <p>Building the future of sustainable transportation through advanced embedded systems</p>
+        </section>
+
+        <section id="projects">
+            <h2>Featured Projects</h2>
+            <div class="project-grid">
+                <!-- Projects will be dynamically inserted here by JavaScript -->
+            </div>
+        </section>
+
+        <section id="blog" class="blog-section">
+            <h2>Blog Posts</h2>
+            <div class="blog-grid">
+                <article class="blog-card">
+                    <h3>Building an EV Charger: Interactive Guide</h3>
+                    <p>Learn about EV charging station development through an interactive game-like experience.</p>
+                    <div class="blog-tags">
+                        <span class="tech-tag">IEC 61851-1</span>
+                        <span class="tech-tag">ISO 15118</span>
+                        <span class="tech-tag">Interactive</span>
+                    </div>
+                    <a href="/blog/charger-tutorial.html" class="read-more">Read More →</a>
+                </article>
+                <!-- More blog posts can be added here -->
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Túlio Soares - EV Charging Solutions</p>
+    </footer>
+</body>
+</html> 
