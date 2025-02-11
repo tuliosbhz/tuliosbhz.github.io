@@ -13,6 +13,11 @@ async function build() {
         // Copy index.html to root of dist
         await fs.copy('index.html', 'dist/index.html');
 
+        // Determine environment and copy correct config
+        const isDev = process.env.NODE_ENV === 'development';
+        const configFile = isDev ? 'src/config/dev.js' : 'src/config/prod.js';
+        await fs.copy(configFile, 'dist/config/config.js');
+
         // Update file paths in HTML files
         const files = [
             'dist/index.html',
@@ -25,6 +30,9 @@ async function build() {
                 
                 // Replace all /src/ references with /
                 content = content.replace(/\/src\//g, '/');
+                
+                // Update config path
+                content = content.replace(/\/config\/(dev|prod)\.js/g, '/config/config.js');
                 
                 await fs.writeFile(file, content);
             } else {

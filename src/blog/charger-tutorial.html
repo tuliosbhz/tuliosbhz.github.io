@@ -9,24 +9,44 @@
     <link rel="stylesheet" href="/styles/charger-game.css">
 </head>
 <body>
+    <header>
+        <div class="header-content">
+            <div class="logo-name-container">
+                <div class="logo">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <div class="name-title-container">
+                    <h1>EV Solutions Lab</h1>
+                    <p class="subtitle">Interactive Learning</p>
+                </div>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/#projects">Projects</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
     <article class="tutorial">
-        <header>
-            <h1>Building an EV Charger: An Interactive Guide</h1>
+        <div class="tutorial-header">
+            <h1>Building an EV Charger: Interactive Guide</h1>
             <p class="subtitle">Learn through play: From basic electronics to V2G communication</p>
-        </header>
+        </div>
 
         <div id="game-container">
+            <div class="stats-bar">
+                <div class="score">0</div>
+                <div class="lives"></div>
+            </div>
+            <div class="game-stage">
+                <!-- Game content will be dynamically inserted -->
+            </div>
             <div class="level-selector">
                 <!-- Level buttons will be dynamically inserted -->
-            </div>
-            
-            <div class="game-stage">
-                <canvas id="game-canvas"></canvas>
-            </div>
-
-            <div class="info-panel">
-                <div class="current-task"></div>
-                <div class="component-info"></div>
             </div>
         </div>
 

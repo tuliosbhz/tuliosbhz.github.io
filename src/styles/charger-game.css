@@ -1,12 +1,39 @@
-/* Update game container styling */
+/* Tutorial header styling */
+.tutorial-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.tutorial-header h1 {
+    font-size: 2rem;
+    color: var(--primary-color);
+    margin-bottom: 0.5rem;
+}
+
+.tutorial-header .subtitle {
+    font-size: 1.1rem;
+    color: var(--text-color);
+    opacity: 0.9;
+}
+
+/* Game container layout */
 #game-container {
-    display: grid;
-    grid-template-columns: 250px 1fr 300px;
-    gap: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin: 2rem auto;
+    max-width: 1000px;
     background: var(--surface-color);
     border-radius: 1rem;
     padding: 2rem;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    box-shadow: var(--card-shadow);
+}
+
+/* Game content layout */
+.game-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
 }
 
 /* Game canvas styling */
@@ -16,27 +43,130 @@
     background: var(--background-color);
 }
 
+/* Stats bar styling */
+.stats-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.5rem;
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 0.5rem;
+    margin-top: auto; /* Push to bottom */
+}
+
+.score {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--primary-color);
+}
+
+.score::before {
+    content: 'Score: ';
+    font-weight: normal;
+    opacity: 0.8;
+}
+
+/* Battery lives styling */
+.lives {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.lives::before {
+    content: 'Lives: ';
+    font-size: 1rem;
+    opacity: 0.8;
+}
+
+.battery-container {
+    width: 28px;
+    height: 44px;
+    position: relative;
+    border: 2.5px solid var(--primary-color);
+    border-radius: 4px;
+    padding: 2px;
+    background: var(--surface-color);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.battery-container::before {
+    content: '';
+    position: absolute;
+    top: -5px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 12px;
+    height: 4px;
+    background: var(--primary-color);
+    border-radius: 2px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.battery-level {
+    position: absolute;
+    bottom: 2px;
+    left: 2px;
+    right: 2px;
+    background: var(--primary-color);
+    border-radius: 2px;
+    transition: height 0.5s ease, background-color 0.5s ease;
+}
+
+.battery.full .battery-level {
+    height: calc(100% - 4px);
+    opacity: 1;
+}
+
+.battery.medium .battery-level {
+    height: 60%;
+    opacity: 0.8;
+}
+
+.battery.low .battery-level {
+    height: 30%;
+    opacity: 0.6;
+}
+
+.battery.empty .battery-level {
+    height: 0;
+    opacity: 0;
+}
+
 /* Level selector styling */
-.level-selector button {
-    width: 100%;
+.level-selector {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    justify-content: center;
     padding: 1rem;
-    margin: 0.5rem 0;
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 0.5rem;
+    margin-top: 1rem;
+}
+
+.level-selector button {
+    flex: 0 0 auto;
+    padding: 0.75rem 1.5rem;
     background: var(--surface-color);
     border: 2px solid var(--primary-color);
     border-radius: 0.5rem;
     color: var(--text-color);
+    font-size: 0.9rem;
     cursor: pointer;
     transition: all 0.3s ease;
+    min-width: 120px;
+    text-align: center;
 }
 
 .level-selector button:hover {
-    background: var(--primary-color);
     transform: translateY(-2px);
+    background: rgba(var(--primary-color-rgb), 0.1);
 }
 
 .level-selector button.active {
     background: var(--primary-color);
-    box-shadow: 0 0 10px rgba(99, 102, 241, 0.3);
+    color: white;
 }
 
 /* Component info styling */
@@ -47,35 +177,72 @@
     margin-top: 1rem;
 }
 
-/* Drag and drop elements */
+/* Game elements styling */
+.elements-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+    padding: 1.5rem;
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 0.5rem;
+}
+
+/* Draggable elements */
 .draggable {
-    padding: 0.5rem 1rem;
-    background: var(--primary-color);
-    color: white;
-    border-radius: 0.25rem;
+    padding: 0.75rem 1rem;
+    background: var(--surface-color);
+    border: 2px solid var(--primary-color);
+    border-radius: 0.5rem;
     cursor: move;
     user-select: none;
-    margin: 0.5rem;
-    transition: transform 0.2s;
+    transition: all 0.3s ease;
+    text-align: center;
 }
 
-.draggable:hover {
-    transform: scale(1.05);
+.draggable strong {
+    display: block;
+    color: var(--primary-color);
+    margin-bottom: 0.25rem;
+    font-size: 0.9rem;
 }
 
+.draggable .hint {
+    font-size: 0.8rem;
+    opacity: 0.8;
+}
+
+/* Drop zones */
 .drop-zone {
-    min-height: 120px;
+    min-height: 80px;
     border: 2px dashed var(--primary-color);
+    border-radius: 0.5rem;
     display: flex;
     align-items: center;
     justify-content: center;
-    text-align: center;
+    background: rgba(0, 0, 0, 0.05);
     transition: all 0.3s ease;
+    position: relative;
+    padding: 1rem;
+    font-size: 0.9rem;
+    color: var(--text-color);
+    text-align: center;
+    font-weight: 500;
+}
+
+.drop-zone.drag-over {
+    background: rgba(var(--primary-color-rgb), 0.1);
+    border-style: solid;
+}
+
+/* Remove the previous ::before pseudo-element that showed the position */
+.drop-zone::before {
+    display: none;
 }
 
 .drop-zone.correct {
-    border-color: #22c55e;
-    background: rgba(34, 197, 94, 0.1);
+    border-color: #10b981;
+    background: rgba(16, 185, 129, 0.1);
 }
 
 .drop-zone.incorrect {
@@ -83,11 +250,18 @@
     background: rgba(239, 68, 68, 0.1);
 }
 
-.score {
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: var(--primary-color);
-    margin-bottom: 1rem;
+/* Drop zones */
+.schematic-area {
+    background: rgba(0, 0, 0, 0.1);
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+}
+
+.schematic-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.5rem;
 }
 
 .placement-hint {
@@ -153,117 +327,69 @@
     transform: translateX(20px);
 }
 
-/* Add these styles at the top */
-.elements-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
+/* Level info styling */
+.level-info {
     margin-bottom: 2rem;
     padding: 1rem;
-    background: rgba(255, 255, 255, 0.05);
+    background: rgba(0, 0, 0, 0.1);
     border-radius: 0.5rem;
+    color: var(--text-color);
 }
 
-.task-instruction {
-    color: var(--accent-color);
-    font-size: 1.1rem;
-    margin: 1rem 0;
+.level-info h3 {
+    color: var(--primary-color);
+    margin-bottom: 0.5rem;
 }
 
-/* Update the game stage styles */
-.game-stage {
-    padding: 2rem;
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
-}
-
-.schematic-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1rem;
-    margin-top: 2rem;
-}
-
-/* Update game container for mobile */
-#game-container {
-    display: grid;
-    grid-template-columns: 250px 1fr 300px;
-    gap: 2rem;
-    background: var(--surface-color);
+.level-info .difficulty {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
     border-radius: 1rem;
-    padding: 2rem;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
 }
 
-/* Mobile responsive adjustments */
-@media (max-width: 1024px) {
-    .tutorial {
-        padding: 5rem 1rem 2rem;  /* Adjusted top padding */
-        overflow-x: hidden;  /* Prevent horizontal scroll */
-    }
+.difficulty.easy { background: rgba(16, 185, 129, 0.2); }
+.difficulty.medium { background: rgba(251, 191, 36, 0.2); }
+.difficulty.hard { background: rgba(239, 68, 68, 0.2); }
 
-    .tutorial header {
-        margin-bottom: 2rem;
-    }
+/* Tutorial container adjustments */
+.tutorial {
+    padding-top: 100px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding-bottom: 2rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
 
-    .tutorial h1 {
-        font-size: 2rem;
-        padding: 0 1rem;
-        word-wrap: break-word;  /* Handle long words */
-    }
-
-    .tutorial .subtitle {
-        font-size: 1rem;
-        padding: 0 1rem;
-        white-space: normal;  /* Allow text to wrap */
-    }
-
-    #game-container {
-        grid-template-columns: 1fr;
-        padding: 1rem;
-        gap: 1rem;
-        margin: 1rem -1rem;  /* Extend to edges on mobile */
-        border-radius: 0;
-    }
-
+/* Mobile responsiveness */
+@media (max-width: 768px) {
     .level-selector {
-        margin: 0 -1rem;  /* Extend to edges */
-        padding: 0.5rem 1rem;
-        display: flex;
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
-        scrollbar-width: none;
+        flex-direction: column;
         gap: 0.5rem;
-        background: rgba(0, 0, 0, 0.1);
     }
 
     .level-selector button {
-        flex: 0 0 auto;
-        padding: 0.75rem 1.25rem;
-        font-size: 0.9rem;
-        margin: 0;  /* Remove margin, use gap instead */
+        width: 100%;
+        min-width: unset;
     }
 
-    .current-task {
-        padding: 0 1rem;
-    }
-
-    .task-instruction {
-        font-size: 0.95rem;
-        line-height: 1.4;
+    .level-selector button:hover {
+        transform: translateX(5px);
     }
 
     .elements-container {
-        margin: 0;
-        padding: 1rem;
-        justify-content: flex-start;  /* Left align items */
-        overflow-x: auto;  /* Allow horizontal scroll if needed */
-        -webkit-overflow-scrolling: touch;
+        order: 2;
+    }
+
+    .schematic-area {
+        order: 1;
     }
 
     .draggable {
-        flex: 0 0 auto;  /* Prevent shrinking */
+        font-size: 0.9rem;
+        padding: 0.5rem 0.75rem;
     }
 }
 
@@ -316,4 +442,13 @@
         margin: 0;
         border-radius: 0;
     }
+}
+
+/* Remove empty sections */
+.technical-details:empty {
+    display: none;
+}
+
+.info-panel:empty {
+    display: none;
 } 

@@ -1,39 +1,64 @@
 class ChargerGame {
     constructor() {
         this.currentLevel = 0;
+        this.score = 0;
+        this.maxLives = 3;
+        this.lives = this.maxLives;
         this.levels = [
             {
                 id: 1,
                 title: "Hardware Basics",
                 description: "Learn the fundamental components of an AC charger",
+                difficulty: "Easy",
+                points: 100,
                 challenges: [
                     {
                         type: "drag-and-drop",
-                        task: "Assemble the basic AC charger components",
+                        task: "Assemble the AC charger components in the correct sequence",
                         elements: [
-                            "Contactor",
-                            "MCU",
-                            "Current Sensors",
-                            "PWM Generator",
-                            "Power Supply"
+                            { id: "contactor", name: "Contactor", hint: "Power Switch" },
+                            { id: "mcu", name: "MCU", hint: "Control Unit" },
+                            { id: "sensors", name: "Sensors", hint: "Current Monitor" },
+                            { id: "pwm", name: "PWM", hint: "Signal Control" },
+                            { id: "psu", name: "Power Supply", hint: "Power Source" }
+                        ],
+                        positions: [
+                            { id: "psu", label: "AC Input Stage" },
+                            { id: "mcu", label: "System Brain" },
+                            { id: "sensors", label: "Safety Check" },
+                            { id: "pwm", label: "EV Communication" },
+                            { id: "contactor", label: "Vehicle Connection" }
                         ]
                     }
-                ]
+                ],
+                quiz: {
+                    question: "Which component acts as the main safety switch?",
+                    options: ["MCU", "Contactor", "PWM Generator", "Current Sensors"],
+                    correct: 1
+                }
             },
             {
                 id: 2,
                 title: "IEC 61851-1 States",
-                description: "Master the charging states",
+                description: "Master the charging states and transitions",
+                difficulty: "Medium",
+                points: 150,
                 challenges: [
                     {
                         type: "state-machine",
                         task: "Guide the charging process through correct states",
                         states: [
-                            "State A (Standby)",
-                            "State B (Vehicle Connected)",
-                            "State C (Charging)",
-                            "State D (Special Charging)",
-                            "Error State"
+                            { id: "A", name: "Standby", transitions: ["B"] },
+                            { id: "B", name: "Vehicle Connected", transitions: ["A", "C", "E"] },
+                            { id: "C", name: "Charging", transitions: ["B", "D"] },
+                            { id: "D", name: "Special Charging", transitions: ["B"] },
+                            { id: "E", name: "Error", transitions: ["A"] }
+                        ],
+                        scenario: [
+                            "Vehicle connects",
+                            "Start charging",
+                            "Error detected",
+                            "Reset system"
                         ]
                     }
                 ]
@@ -41,75 +66,77 @@ class ChargerGame {
             {
                 id: 3,
                 title: "ISO 15118 Communication",
-                description: "Explore the OSI layers of V2G communication",
+                description: "Explore V2G communication layers",
+                difficulty: "Hard",
+                points: 200,
                 challenges: [
                     {
-                        type: "layer-stack",
-                        task: "Build the communication stack",
+                        type: "protocol-stack",
+                        task: "Build the communication stack in correct order",
                         layers: [
-                            "Application Layer (V2G Messages)",
-                            "Transport Layer (TCP/IP)",
-                            "Network Layer (IPv6)",
-                            "Data Link (HomePlug GreenPHY)",
-                            "Physical Layer (Control Pilot)"
+                            { id: "app", name: "Application (V2G Messages)" },
+                            { id: "transport", name: "Transport (TCP/IP)" },
+                            { id: "network", name: "Network (IPv6)" },
+                            { id: "datalink", name: "Data Link (HomePlug GreenPHY)" },
+                            { id: "physical", name: "Physical (Control Pilot)" }
                         ]
                     }
                 ]
             }
         ];
+
+        // Initialize game UI once
         this.initializeGame();
     }
 
     initializeGame() {
-        // Create level buttons
+        const gameStage = document.querySelector('.game-stage');
         const levelSelector = document.querySelector('.level-selector');
+        if (!gameStage || !levelSelector) return;
+
+        // Clear any existing content
+        gameStage.innerHTML = '';
+        levelSelector.innerHTML = '';
+
+        // Create game elements container
+        const gameElements = document.createElement('div');
+        gameElements.className = 'game-elements';
+        gameStage.appendChild(gameElements);
+
+        // Add level buttons
         this.levels.forEach((level, index) => {
             const button = document.createElement('button');
-            button.textContent = level.title;
-            button.addEventListener('click', () => this.selectLevel(index));
+            button.textContent = `Level ${level.id}: ${level.title}`;
+            button.className = index === this.currentLevel ? 'active' : '';
+            button.onclick = () => {
+                // Update active button
+                levelSelector.querySelectorAll('button').forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+                // Load selected level
+                this.currentLevel = index;
+                this.loadLevel(index);
+            };
             levelSelector.appendChild(button);
         });
 
-        // Initialize first level
-        this.selectLevel(0);
-    }
-
-    selectLevel(index) {
-        this.currentLevel = index;
-        const level = this.levels[index];
+        // Load the first level
+        this.loadLevel(this.currentLevel);
         
-        // Update buttons
-        const buttons = document.querySelectorAll('.level-selector button');
-        buttons.forEach((btn, i) => {
-            btn.classList.toggle('active', i === index);
-        });
-
-        // Update task description
-        const taskDiv = document.querySelector('.current-task');
-        taskDiv.innerHTML = `
-            <h3>${level.title}</h3>
-            <p>${level.description}</p>
-            <p class="task-instruction">${level.challenges[0].task}</p>
-        `;
-
-        // Initialize level content based on type
-        this.initializeLevelContent(level.challenges[0]);
+        // Initialize score and lives display
+        this.updateScore();
+        this.updateLives();
     }
 
-    initializeLevelContent(challenge) {
-        const gameStage = document.querySelector('.game-stage');
-        gameStage.innerHTML = ''; // Clear previous content
+    loadLevel(levelIndex) {
+        const level = this.levels[levelIndex];
+        const container = document.querySelector('.game-elements');
+        if (!container) return;
 
-        switch (challenge.type) {
-            case 'drag-and-drop':
-                this.setupDragAndDrop(challenge, gameStage);
-                break;
-            case 'state-machine':
-                this.setupStateMachine(challenge, gameStage);
-                break;
-            case 'layer-stack':
-                this.setupLayerStack(challenge, gameStage);
-                break;
+        container.innerHTML = '';  // Clear previous level content
+        
+        // Setup the current level's challenge
+        if (level.challenges[0].type === "drag-and-drop") {
+            this.setupDragAndDrop(level.challenges[0], container);
         }
     }
 
@@ -117,69 +144,84 @@ class ChargerGame {
         const elementsContainer = document.createElement('div');
         elementsContainer.className = 'elements-container';
         
-        // Create schematic area
+        // Create schematic area with labeled positions
         const schematicArea = document.createElement('div');
         schematicArea.className = 'schematic-area';
         schematicArea.innerHTML = `
             <div class="schematic-grid">
-                <div class="drop-zone" data-position="power">Power Input</div>
-                <div class="drop-zone" data-position="control">Control Unit</div>
-                <div class="drop-zone" data-position="measurement">Measurement</div>
-                <div class="drop-zone" data-position="output">EV Output</div>
+                ${challenge.positions.map(pos => `
+                    <div class="drop-zone" data-position="${pos.id}">
+                        ${pos.label}
+                    </div>
+                `).join('')}
             </div>
         `;
         
-        // Track correct placements
-        this.correctPlacements = {
-            'Power Supply': 'power',
-            'MCU': 'control',
-            'Current Sensors': 'measurement',
-            'Contactor': 'output',
-            'PWM Generator': 'control'
-        };
-        
-        this.score = 0;
-        this.updateScore();
-        
+        // Create draggable elements with simpler labels
         challenge.elements.forEach(element => {
             const div = document.createElement('div');
             div.className = 'draggable';
             div.draggable = true;
-            div.textContent = element;
+            div.dataset.id = element.id;
+            div.innerHTML = `
+                <strong>${element.name}</strong>
+                <span class="hint">${element.hint}</span>
+            `;
             
             div.addEventListener('dragstart', (e) => {
-                e.dataTransfer.setData('text/plain', element);
+                e.dataTransfer.setData('text/plain', element.id);
                 div.classList.add('dragging');
             });
             
-            // Add touch events
-            this.setupTouchEvents(div);
+            div.addEventListener('dragend', () => {
+                div.classList.remove('dragging');
+            });
             
             elementsContainer.appendChild(div);
         });
 
-        // Update drop handling
+        // Update drop zone behavior
         const dropZones = schematicArea.querySelectorAll('.drop-zone');
         dropZones.forEach(zone => {
+            zone.addEventListener('dragover', e => {
+                e.preventDefault();
+                zone.classList.add('drag-over');
+            });
+
+            zone.addEventListener('dragleave', () => {
+                zone.classList.remove('drag-over');
+            });
+
             zone.addEventListener('drop', (e) => {
                 e.preventDefault();
-                const component = e.dataTransfer.getData('text/plain');
-                const position = zone.dataset.position;
+                zone.classList.remove('drag-over');
+                const componentId = e.dataTransfer.getData('text/plain');
                 
-                if (this.correctPlacements[component] === position) {
-                    this.score += 10;
+                if (componentId === zone.dataset.position) {
                     zone.classList.add('correct');
-                    this.updateComponentInfo(component, true);
+                    this.score += 10;
+                    this.updateScore();
+                    
+                    // Check if all components are placed correctly
+                    const allCorrect = Array.from(dropZones).every(z => z.classList.contains('correct'));
+                    if (allCorrect) {
+                        this.score += 50;
+                        this.updateScore();
+                        this.showFeedback(true, "Level completed! +50 points");
+                        setTimeout(() => this.loadNextLevel(), 2000);
+                    }
                 } else {
                     zone.classList.add('incorrect');
                     setTimeout(() => zone.classList.remove('incorrect'), 1000);
-                    this.updateComponentInfo(component, false);
+                    this.lives--;
+                    this.updateLives();
+                    this.showFeedback(false, "Try again!");
+                    
+                    if (this.lives <= 0) {
+                        this.gameOver();
+                    }
                 }
-                
-                this.updateScore();
             });
-            
-            zone.addEventListener('dragover', e => e.preventDefault());
         });
 
         container.appendChild(elementsContainer);
@@ -187,45 +229,64 @@ class ChargerGame {
     }
 
     updateScore() {
-        const infoPanel = document.querySelector('.info-panel');
-        const scoreDiv = infoPanel.querySelector('.score') || document.createElement('div');
-        scoreDiv.className = 'score';
-        scoreDiv.textContent = `Score: ${this.score}`;
-        infoPanel.prepend(scoreDiv);
+        const scoreElement = document.querySelector('.score');
+        if (scoreElement) {
+            scoreElement.textContent = this.score;
+        }
     }
 
-    updateComponentInfo(component, correct) {
-        const infoPanel = document.querySelector('.component-info');
-        const componentInfo = {
-            'Contactor': {
-                description: 'Controls the main power flow to the EV. Essential for safety.',
-                position: 'Should be placed at the output to control power to the vehicle.'
-            },
-            'MCU': {
-                description: 'Microcontroller Unit - The brain of the charging station.',
-                position: 'Belongs in the control section to manage all operations.'
-            },
-            'Current Sensors': {
-                description: 'Monitors charging current for safety and billing.',
-                position: 'Belongs in the measurement section to monitor current.'
-            },
-            'PWM Generator': {
-                description: 'Creates control pilot signal for EV communication.',
-                position: 'Belongs in the control section to generate control signals.'
-            },
-            'Power Supply': {
-                description: 'Provides stable power for control electronics.',
-                position: 'Belongs in the power input section to provide power.'
-            }
-        };
+    updateLives() {
+        const livesContainer = document.querySelector('.lives');
+        if (livesContainer) {
+            const percentage = (this.lives / this.maxLives) * 100;
+            livesContainer.innerHTML = `
+                <div class="battery-container">
+                    <div class="battery-level" style="
+                        height: ${percentage}%;
+                        background-color: ${
+                            percentage > 66 ? 'var(--primary-color)' :
+                            percentage > 33 ? '#fbbf24' : // Yellow
+                            '#ef4444' // Red
+                        }
+                    "></div>
+                </div>
+            `;
+        }
+    }
 
-        const info = componentInfo[component];
-        infoPanel.innerHTML = `
-            <h4>${component}</h4>
-            <p>${info.description}</p>
-            <p class="placement-hint ${correct ? 'correct' : 'incorrect'}">
-                ${correct ? '✓ Correct placement!' : `Hint: ${info.position}`}
-            </p>
+    checkAnswer(answer, correct) {
+        if (answer === correct) {
+            this.score += this.levels[this.currentLevel].points;
+            this.updateScore();
+            this.showFeedback(true, "Correct! Well done!");
+        } else {
+            this.lives--;
+            this.updateLives();
+            this.showFeedback(false, "Try again!");
+            
+            if (this.lives <= 0) {
+                this.gameOver();
+            }
+        }
+    }
+
+    showFeedback(isCorrect, message) {
+        const feedback = document.createElement('div');
+        feedback.className = `feedback ${isCorrect ? 'correct' : 'incorrect'}`;
+        feedback.textContent = message;
+        document.querySelector('.game-stage').appendChild(feedback);
+        
+        setTimeout(() => feedback.remove(), 2000);
+    }
+
+    gameOver() {
+        const gameStage = document.querySelector('.game-stage');
+        gameStage.innerHTML = `
+            <div class="game-over">
+                <h2>Game Over</h2>
+                <p>Final Score: ${this.score}</p>
+                <button onclick="location.reload()">Play Again</button>
+            </div>
         `;
     }
 
@@ -265,9 +326,29 @@ class ChargerGame {
             }
         });
     }
+
+    loadNextLevel() {
+        if (this.currentLevel < this.levels.length - 1) {
+            this.loadLevel(this.currentLevel + 1);
+        } else {
+            this.showVictory();
+        }
+    }
+
+    showVictory() {
+        const gameStage = document.querySelector('.game-stage');
+        gameStage.innerHTML = `
+            <div class="victory">
+                <h2>Congratulations!</h2>
+                <p>You've completed all levels!</p>
+                <p>Final Score: ${this.score}</p>
+                <button onclick="location.reload()">Play Again</button>
+            </div>
+        `;
+    }
 }
 
-// Initialize game when DOM is loaded
+// Create only one instance of the game
 document.addEventListener('DOMContentLoaded', () => {
-    const game = new ChargerGame();
+    new ChargerGame();
 }); 

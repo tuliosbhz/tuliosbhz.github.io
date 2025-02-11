@@ -2,38 +2,48 @@
 .tutorial {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 6rem 2rem 2rem; /* Increased top padding to account for fixed header */
+    padding-top: 80px; /* Match the header height */
+    padding-bottom: 2rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
     font-family: 'Inter', sans-serif;
+    position: relative; /* Add this */
+    z-index: 1; /* Add this */
 }
 
 .tutorial header {
     text-align: center;
-    margin-bottom: 3rem;
+    margin-bottom: 1.5rem; /* Reduced margin */
+    padding: 0.5rem;
 }
 
 .tutorial h1 {
-    font-size: 2.5rem;
+    font-size: 1.8rem; /* Reduced font size */
     color: var(--primary-color);
-    margin-bottom: 1rem;
+    margin-bottom: 0.5rem; /* Reduced margin */
 }
 
 .tutorial .subtitle {
-    font-size: 1.2rem;
+    font-size: 1rem; /* Reduced font size */
     color: var(--text-color);
     opacity: 0.9;
+    max-width: 600px; /* Limit width for better readability */
+    margin: 0 auto;
 }
 
 /* Game container layout */
 #game-container {
     display: grid;
     grid-template-columns: 250px 1fr 300px;
-    gap: 2rem;
-    margin: 2rem 0;
-    min-height: 600px;
+    gap: 1rem;
+    margin: 1rem 0;
+    min-height: 500px;
     background: var(--surface-color);
     border-radius: 1rem;
-    padding: 2rem;
+    padding: 1rem;
     box-shadow: var(--card-shadow);
+    position: relative; /* Add this */
+    z-index: 2; /* Higher than tutorial but lower than main header */
 }
 
 .level-selector {
@@ -47,6 +57,7 @@
     background: var(--background-color);
     border-radius: 0.5rem;
     overflow: hidden;
+    z-index: 3; /* Higher than container */
 }
 
 .info-panel {
@@ -62,4 +73,72 @@
     background: var(--surface-color);
     border-radius: 1rem;
     box-shadow: var(--card-shadow);
+}
+
+/* Mobile responsive adjustments */
+@media (max-width: 768px) {
+    .tutorial {
+        padding-top: 70px; /* Slightly reduced for mobile */
+    }
+
+    .tutorial header {
+        margin-bottom: 1rem;
+    }
+
+    .tutorial h1 {
+        font-size: 1.5rem;
+        padding: 0 0.5rem;
+    }
+
+    .tutorial .subtitle {
+        font-size: 0.9rem;
+        padding: 0 0.5rem;
+    }
+
+    #game-container {
+        grid-template-columns: 1fr;
+        gap: 0.5rem;
+        margin: 0.5rem 0;
+        min-height: calc(100vh - 100px); /* Adjust to account for header */
+        height: auto; /* Remove fixed height */
+        overflow: visible; /* Change from auto to visible */
+    }
+
+    .level-selector {
+        display: flex;
+        overflow-x: auto;
+        padding: 0.5rem;
+        gap: 0.5rem;
+        background: rgba(0, 0, 0, 0.1);
+    }
+
+    .level-selector button {
+        flex: 0 0 auto;
+        white-space: nowrap;
+        padding: 0.5rem 1rem;
+    }
+
+    .game-stage {
+        min-height: 300px;
+        height: auto; /* Allow content to determine height */
+    }
+
+    .info-panel {
+        padding: 0.5rem;
+    }
+}
+
+/* Extra small devices */
+@media (max-width: 360px) {
+    .tutorial {
+        padding-top: 60px; /* Even smaller for tiny screens */
+    }
+
+    .tutorial h1 {
+        font-size: 1.2rem;
+    }
+
+    #game-container {
+        min-height: calc(100vh - 80px); /* Adjust for smaller header */
+    }
 } 
